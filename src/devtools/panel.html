@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Playwright Locators</title>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --card-bg: #f8fafc;
+      --border: #e2e8f0;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --code-bg: #0f172a;
+      --code-text: #f8fafc;
+      --success: #16a34a;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #1e1e1e;
+        --card-bg: #252526;
+        --border: #3c3c3c;
+        --text: #cccccc;
+        --text-muted: #8c8c8c;
+        --primary: #0e639c;
+        --primary-hover: #1177bb;
+        --code-bg: #181818;
+        --code-text: #d4d4d4;
+      }
+    }
+
+    body {
+      margin: 0;
+      padding: 12px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      font-size: 13px;
+      color: var(--text);
+      background-color: var(--bg);
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .title-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .title-row h1 {
+      margin: 0;
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .controls-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    button.primary-btn {
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    button.primary-btn:hover {
+      background-color: var(--primary-hover);
+    }
+
+    button.primary-btn.inspecting {
+      background-color: #dc2626;
+    }
+
+    select {
+      background-color: var(--card-bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+      padding: 5px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    #target-info {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+      min-height: 18px;
+    }
+
+    #empty-state {
+      text-align: center;
+      padding: 40px 16px;
+      color: var(--text-muted);
+      background: var(--card-bg);
+      border-radius: 6px;
+      border: 1px dashed var(--border);
+    }
+
+    .candidate-card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      margin-bottom: 10px;
+      padding: 10px;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    }
+
+    .candidate-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .badge-group {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .badge {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 6px;
+      border-radius: 3px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .badge-method {
+      background: #e0f2fe;
+      color: #0369a1;
+    }
+
+    .badge-unique {
+      background: #dcfce7;
+      color: #15803d;
+    }
+
+    .badge-scoped {
+      background: #fef3c7;
+      color: #b45309;
+    }
+
+    .badge-nth {
+      background: #fee2e2;
+      color: #b91c1c;
+    }
+
+    .code-container {
+      position: relative;
+      margin-top: 6px;
+    }
+
+    pre {
+      margin: 0;
+      padding: 8px 10px;
+      background-color: var(--code-bg);
+      color: var(--code-text);
+      border-radius: 4px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 12px;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+
+    .copy-btn {
+      position: absolute;
+      right: 6px;
+      top: 6px;
+      background: rgba(255, 255, 255, 0.15);
+      color: #fff;
+      border: none;
+      padding: 3px 8px;
+      border-radius: 3px;
+      font-size: 11px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .copy-btn:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    .copy-btn.copied {
+      background: var(--success);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="title-row">
+      <h1>Playwright Locators</h1>
+    </div>
+    <div class="controls-row">
+      <button id="pickBtn" class="primary-btn">
+        <span id="pickText">Pick Element</span>
+      </button>
+      <select id="langSelect" aria-label="Output Language">
+        <option value="typescript">TypeScript</option>
+        <option value="javascript">JavaScript</option>
+        <option value="python">Python</option>
+        <option value="java">Java</option>
+      </select>
+    </div>
+  </header>
+
+  <div id="target-info">Click <strong>Pick Element</strong>, then hover and click any element on the page.</div>
+
+  <div id="candidates-container">
+    <div id="empty-state">
+      <p>No element picked yet.</p>
+    </div>
+  </div>
+
+  <script type="module" src="./panel.ts"></script>
+</body>
+</html>

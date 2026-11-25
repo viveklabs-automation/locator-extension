@@ -1,0 +1,32 @@
+{
+  "manifest_version": 3,
+  "name": "Playwright Locator Generator",
+  "version": "0.1.0",
+  "description": "Generate robust Playwright locators for picked elements in Chrome and Edge.",
+  "permissions": [
+    "storage",
+    "activeTab",
+    "scripting"
+  ],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "devtools_page": "src/devtools/devtools.html",
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "content/pick.js"
+      ],
+      "run_at": "document_end",
+      "all_frames": true
+    }
+  ],
+  "action": {
+    "default_title": "Playwright Locator Generator Settings",
+    "default_popup": "src/settings.html"
+  }
+}

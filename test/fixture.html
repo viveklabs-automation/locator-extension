@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Playwright Locator Fixture</title>
+</head>
+<body>
+  <!-- Angular Style Component -->
+  <header _ngcontent-ng-c10001="" class="header-nav">
+    <h1 _ngcontent-ng-c10001="">Dashboard Overview</h1>
+    <button _ngcontent-ng-c10001="" ng-reflect-color="primary" data-testid="angular-submit-btn">
+      Submit Angular
+    </button>
+  </header>
+
+  <main _ngcontent-ng-c10001="">
+    <!-- Form with labels and placeholders -->
+    <section _ngcontent-ng-c10001="" id="form-section">
+      <form _ngcontent-ng-c10001="">
+        <label for="angular-email">Email Address</label>
+        <input id="angular-email" _ngcontent-ng-c10001="" type="email" placeholder="name@example.com" />
+
+        <label>
+          Password
+          <input _ngcontent-ng-c10001="" type="password" placeholder="Enter password" />
+        </label>
+
+        <button type="submit" _ngcontent-ng-c10001="" title="Submit Form Tooltip">Log In</button>
+      </form>
+    </section>
+
+    <!-- React Style Components with hashed CSS modules -->
+    <section class="Dashboard_container__a1b2c">
+      <div class="Card_wrapper__x9y8z" data-testid="user-card-alpha">
+        <h2 class="Card_title__m3n4o">Alpha User</h2>
+        <img class="Avatar_img__5p6q7" src="alpha.jpg" alt="Alpha Avatar" />
+        <button class="Button_btn__1a2b3 Button_primary__4c5d6">Save Changes</button>
+      </div>
+
+      <div class="Card_wrapper__x9y8z" data-testid="user-card-beta">
+        <h2 class="Card_title__m3n4o">Beta User</h2>
+        <img class="Avatar_img__5p6q7" src="beta.jpg" alt="Beta Avatar" />
+        <button class="Button_btn__1a2b3 Button_primary__4c5d6">Save Changes</button>
+      </div>
+    </section>
+
+    <!-- Duplicate items to verify .filter() and .nth() -->
+    <div id="duplicate-list-container">
+      <ul class="notification-list">
+        <li class="notification-item">Dismiss</li>
+        <li class="notification-item">Dismiss</li>
+        <li class="notification-item">Dismiss</li>
+      </ul>
+    </div>
+
+    <!-- Shadow Root Host -->
+    <div id="shadow-host"></div>
+  </main>
+</body>
+</html>
